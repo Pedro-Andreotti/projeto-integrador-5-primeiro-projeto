@@ -1,25 +1,34 @@
-import './App.css'
-import Aluno from './components/Aluno'
-import Titulo from './components/Titulo'
+import { useState } from "react";
+import "./App.css";
+import InputNome from "./components/InputNome";
+import ListaNomes from "./components/ListaNomes";
 
-function App() {
-  function alertmsg(){
-    alert("Alerta de botão clicado")
-}
+export default function App() {
+  const [nomes, setNomes] = useState(["João", "Maria", "Carlos"]);
+  const [input, setInput] = useState("");
+
+  const adicionar = () => {
+    if (input.trim() === "") return;
+    setNomes([...nomes, input]);
+    setInput("");
+  };
+
+  const remover = (index) => {
+    setNomes(nomes.filter((_, i) => i !== index));
+  };
+
   return (
-    <><><div>
-      <h1>Minha Aplicação</h1>
-      <Titulo />
+    <div classname="container">
+      <h1>Lista Dinâmica</h1>
+      <InputNome
+        input={input}
+        setInput={setInput}
+        onAdicionar={adicionar}
+      />
+      <ListaNomes
+        nomes={nomes}
+        onRemover={remover}
+      />
     </div>
-      <div>
-        <h1>Aluno:</h1>
-        <Aluno />
-      </div></>
-      <div>
-        <button onClick={alertmsg}>Clique Aqui</button>
-      </div>
-      </>
-  )
+  );
 }
-
-export default App
